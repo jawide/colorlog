@@ -50,21 +50,24 @@ class LogLevel:
     ERROR    = 40
     CRITICAL = 50
 
+default_level_colors = {}
+default_level_colors[LogLevel.NOTSET]   = Color()
+default_level_colors[LogLevel.DEBUG]    = Color(Fore.BLUE, Style.BRIGHT)
+default_level_colors[LogLevel.INFO]     = Color()
+default_level_colors[LogLevel.WARNING]  = Color(Fore.YELLOW)
+default_level_colors[LogLevel.ERROR]    = Color(Fore.RED)
+default_level_colors[LogLevel.CRITICAL] = Color(Fore.RED, Back.YELLOW, Style.BRIGHT)
+
 class Config:
     def __init__(self, level_colors:Dict[LogLevel, Color]={}) -> None:
-        self.level_colors = level_colors
+        self.level_colors = {}
+        for level, color in default_level_colors.items():
+            self.level_colors[level] = level_colors.get(level) or color
         
     def set_color(self, log_level:LogLevel, color:Color):
         self.level_colors[log_level] = color
 
-level_colors = {}
-level_colors[LogLevel.NOTSET]   = Color()
-level_colors[LogLevel.DEBUG]    = Color(Fore.BLUE, Style.BRIGHT)
-level_colors[LogLevel.INFO]     = Color()
-level_colors[LogLevel.WARNING]  = Color(Fore.YELLOW)
-level_colors[LogLevel.ERROR]    = Color(Fore.RED)
-level_colors[LogLevel.CRITICAL] = Color(Fore.RED, Back.YELLOW, Style.BRIGHT)
-DEFAULT_CONFIG = Config(level_colors)
+DEFAULT_CONFIG = Config()
 
 def init(logging:ModuleType, config:Config=DEFAULT_CONFIG):
     def emit(self, record):
