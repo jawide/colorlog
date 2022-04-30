@@ -1,5 +1,5 @@
 import os
-from typing import Tuple
+from typing import Dict
 from types import ModuleType
 
 
@@ -51,7 +51,7 @@ class LogLevel:
     CRITICAL = 50
 
 class Config:
-    def __init__(self, level_colors:Tuple[Color]={}) -> None:
+    def __init__(self, level_colors:Dict[LogLevel, Color]={}) -> None:
         self.level_colors = level_colors
         
     def set_color(self, log_level:LogLevel, color:Color):
