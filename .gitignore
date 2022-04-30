@@ -1,2 +1,7 @@
 # invisible file
 /.*/
+
+# pypi
+/build/
+/dist/
+*.egg-info/
